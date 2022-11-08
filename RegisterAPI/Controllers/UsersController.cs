@@ -18,34 +18,57 @@ public class UsersController : ControllerBase
         _dataContext = dataContext;
     }
 
-    [HttpGet()]
+    [HttpGet]
     public async Task<IResult> GetAll()
-    {
-        return Results.Ok();
-    }
-
-    [HttpGet("{userId}/")]
-    public async Task<IResult> Get([FromRoute] string userId)
     {
         var users = await _dataContext.Users.ToListAsync();
         return Results.Ok(users);
     }
 
-    [HttpPost()]
+    [HttpGet("{userId}")]
+    public async Task<IResult> Get([FromRoute] Guid userId)
+    {
+        var user = await _dataContext.Users.FindAsync(userId);
+        if (user is null)
+            return Results.NotFound($"Requested user with id {userId} not found");
+
+        return Results.Ok(user);
+    }
+
+    [HttpPost]
     public async Task<IResult> Post([FromBody] CreateUserRequest createUserRequest)
     {
-        return Results.Ok();
+        var user = createUserRequest.Create();
+        _dataContext.Users.Add(user);
+        await _dataContext.SaveChangesAsync();
+
+        return Results.Created($"users/{user.Id}", user);
     }
 
-    [HttpPut("{userId}/")]
-    public async Task<IResult> Put([FromRoute] UpdateUserRequest updateUserRequest)
+    [HttpPut("{userId}")]
+    public async Task<IResult> Put([FromRoute] Guid userId, [FromBody] UpdateUserRequest updateUserRequest)
     {
-        return Results.Ok();
+        var user = await _dataContext.Users.FindAsync(userId);
+        if (user is null)
+            return Results.NotFound($"Requested user with id {userId} not found");
+
+        var updatedUser = updateUserRequest.Update(user);
+        _dataContext.Users.Update(updatedUser);
+        await _dataContext.SaveChangesAsync();
+
+        return Results.Ok(user);
     }
 
-    [HttpDelete("{userId}/")]
-    public async Task<IResult> Delete([FromRoute] string userId)
+    [HttpDelete("{userId}")]
+    public async Task<IResult> Delete([FromRoute] Guid userId)
     {
+        var user = await _dataContext.Users.FindAsync(userId);
+        if (user is null)
+            return Results.NotFound($"Requested user with id {userId} not found");
+
+        _dataContext.Remove(user);
+        await _dataContext.SaveChangesAsync();
+
         return Results.Ok();
     }
 }
