@@ -1,16 +1,16 @@
 namespace RegisterAPI.Domain;
 
-public class User
+public record User
 {
-    public Guid Id;
-    public string UserName;
-    public string FirstName;
-    public string LastName;
-    public string Email;
-    public bool IsEmailConfirmed;
-    public bool IsLocked;
-    public string PhoneNumber;
-    public DateTime CreatedAt;
-    public DateTime  UpdatedAt;
-    public string PasswordHash;
+    public Guid Id { get; set; }
+    public string UserName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
+    public bool IsEmailConfirmed { get; set; }
+    public bool IsLocked { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string PasswordHash { get; set; }
 }
