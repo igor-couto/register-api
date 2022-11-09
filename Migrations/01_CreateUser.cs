@@ -18,7 +18,8 @@ public class CreateClosedDateTable : Migration
             .WithColumn("phone_number").AsString(16).NotNullable()
             .WithColumn("created_at").AsDate().NotNullable()
             .WithColumn("updated_at").AsDate().NotNullable()
-            .WithColumn("password_hash").AsString().NotNullable();
+            .WithColumn("password_hash").AsString().NotNullable()
+            .WithColumn("password_salt").AsString(6).NotNullable();
     }
 
     public override void Down() => Delete.Table("users");
