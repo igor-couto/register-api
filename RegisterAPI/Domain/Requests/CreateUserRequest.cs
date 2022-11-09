@@ -1,3 +1,5 @@
+using Scrypt;
+
 namespace RegisterAPI.Domain.Requests;
 
 public class CreateUserRequest
@@ -13,6 +15,8 @@ public class CreateUserRequest
     {
         var currentDate = DateTime.Now;
 
+        var passwordSalt = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 6);
+
         return new User()
         {
             Id = Guid.NewGuid(),
@@ -25,7 +29,8 @@ public class CreateUserRequest
             IsLocked = false,
             CreatedAt = currentDate,
             UpdatedAt = currentDate,
-            PasswordHash = Password
+            PasswordSalt = passwordSalt,
+            PasswordHash = new ScryptEncoder().Encode(passwordSalt + Password)
         };
     }
 }

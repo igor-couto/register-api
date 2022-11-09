@@ -19,56 +19,69 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IResult> GetAll()
+    public async Task<IActionResult> GetAll()
     {
         var users = await _dataContext.Users.ToListAsync();
-        return Results.Ok(users);
+
+        if(users is null || !users.Any())
+            return NoContent();
+
+        return Ok(users);
     }
 
     [HttpGet("{userId}")]
-    public async Task<IResult> Get([FromRoute] Guid userId)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Get([FromRoute] Guid userId)
     {
         var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
-            return Results.NotFound($"Requested user with id {userId} not found");
+            return NotFound($"Requested user with id {userId} not found");
 
-        return Results.Ok(user);
+        return Ok(user);
     }
 
     [HttpPost]
-    public async Task<IResult> Post([FromBody] CreateUserRequest createUserRequest)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> Post([FromBody] CreateUserRequest createUserRequest)
     {
         var user = createUserRequest.Create();
         _dataContext.Users.Add(user);
         await _dataContext.SaveChangesAsync();
 
-        return Results.Created($"users/{user.Id}", user);
+        var url = $"{Request.Scheme}://{Request.Host.Value}/users/{user.Id}";
+
+        return Created(url, user);
     }
 
     [HttpPut("{userId}")]
-    public async Task<IResult> Put([FromRoute] Guid userId, [FromBody] UpdateUserRequest updateUserRequest)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Put([FromRoute] Guid userId, [FromBody] UpdateUserRequest updateUserRequest)
     {
         var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
-            return Results.NotFound($"Requested user with id {userId} not found");
+            return NotFound($"Requested user with id {userId} not found");
 
         var updatedUser = updateUserRequest.Update(user);
         _dataContext.Users.Update(updatedUser);
         await _dataContext.SaveChangesAsync();
 
-        return Results.Ok(user);
+        return Ok(user);
     }
 
     [HttpDelete("{userId}")]
-    public async Task<IResult> Delete([FromRoute] Guid userId)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] Guid userId)
     {
         var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
-            return Results.NotFound($"Requested user with id {userId} not found");
+            return NotFound($"Requested user with id {userId} not found");
 
         _dataContext.Remove(user);
         await _dataContext.SaveChangesAsync();
 
-        return Results.Ok();
+        return NoContent();
     }
 }
