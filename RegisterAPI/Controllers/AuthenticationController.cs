@@ -21,9 +21,9 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest, CancellationToken cancellationToken)
     {
-        var user = await FindUserFromRequest(loginRequest);
+        var user = await FindUserFromRequest(loginRequest, cancellationToken);
 
         if(user is null)
             return NotFound("User not found");
@@ -36,13 +36,13 @@ public class AuthenticationController : ControllerBase
             return Unauthorized();
     }
 
-    private async Task<User> FindUserFromRequest(LoginRequest loginRequest)
+    private async Task<User> FindUserFromRequest(LoginRequest loginRequest, CancellationToken cancellationToken)
     {
         if(!string.IsNullOrEmpty(loginRequest.UserName))
-            return await _dataContext.Users.Where(user => user.UserName == loginRequest.UserName).FirstOrDefaultAsync();
+            return await _dataContext.Users.Where(user => user.UserName == loginRequest.UserName).FirstOrDefaultAsync(cancellationToken);
 
         if(!string.IsNullOrEmpty(loginRequest.Email))
-            return await _dataContext.Users.Where(user => user.Email == loginRequest.Email).FirstOrDefaultAsync();
+            return await _dataContext.Users.Where(user => user.Email == loginRequest.Email).FirstOrDefaultAsync(cancellationToken);
 
         return null;    
     }
