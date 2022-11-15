@@ -43,3 +43,4 @@ jobs:
             memory: 0.5
             name: register-api
             location: 'brazilsouth'
+            ports: 5000
