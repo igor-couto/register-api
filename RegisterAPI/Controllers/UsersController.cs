@@ -34,7 +34,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _dataContext.Users.FindAsync(userId, cancellationToken);
+        var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
             return NotFound($"Requested user with id {userId} not found");
 
@@ -59,7 +59,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Put([FromRoute] Guid userId, [FromBody] UpdateUserRequest updateUserRequest, CancellationToken cancellationToken)
     {
-        var user = await _dataContext.Users.FindAsync(userId, cancellationToken);
+        var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
             return NotFound($"Requested user with id {userId} not found");
 
@@ -75,7 +75,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
-        var user = await _dataContext.Users.FindAsync(userId, cancellationToken);
+        var user = await _dataContext.Users.FindAsync(userId);
         if (user is null)
             return NotFound($"Requested user with id {userId} not found");
 
