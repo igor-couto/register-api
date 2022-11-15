@@ -19,6 +19,8 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var users = await _dataContext.Users.ToListAsync(cancellationToken);
