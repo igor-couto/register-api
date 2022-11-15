@@ -43,4 +43,5 @@ jobs:
             memory: 0.5
             name: register-api
             location: 'brazilsouth'
+            environment-variables: CONNECTIONSTRINGS__DEFAULTCONNECTION=${{ secrets.CONNECTIONSTRINGS__DEFAULTCONNECTION }}
             ports: 5000
