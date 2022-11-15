@@ -39,5 +39,7 @@ jobs:
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+            cpu: 1
+            memory: 0.5
             name: register-api
             location: 'brazilsouth'
