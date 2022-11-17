@@ -8,13 +8,13 @@ This project serves so that I can practice some concepts, without thinking too m
 However, here I implement some important concepts:
 
 - .NET 6.0
+- Azure deployment and configuration
+- CI/CD with github actions
 - Authentication
 - JWT Authorization with claims
 - Refresh Token
 - Password storage with salt and slow hashing
 - Docker
-- CI/CD with github actions
-- Azure deployment and configuration
 - Migrations
 - Conventional commits
 - Semantic versioning
