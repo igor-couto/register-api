@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RegisterAPI.Domain.Requests;
@@ -18,9 +19,10 @@ public class UsersController : ControllerBase
         _dataContext = dataContext;
     }
 
-    [HttpGet]
+    [HttpGet, Authorize(Roles = "user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         var users = await _dataContext.Users.ToListAsync(cancellationToken);
@@ -31,7 +33,7 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("{userId}"), Authorize(Roles = "user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get([FromRoute] Guid userId, CancellationToken cancellationToken)
@@ -45,6 +47,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Post([FromBody] CreateUserRequest createUserRequest, CancellationToken cancellationToken)
     {
         var user = createUserRequest.Create();
@@ -56,9 +59,10 @@ public class UsersController : ControllerBase
         return Created(url, user);
     }
 
-    [HttpPut("{userId}")]
+    [HttpPut("{userId}"), Authorize(Roles = "user")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Put([FromRoute] Guid userId, [FromBody] UpdateUserRequest updateUserRequest, CancellationToken cancellationToken)
     {
         var user = await _dataContext.Users.FindAsync(userId);
@@ -72,9 +76,10 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    [HttpDelete("{userId}")]
+    [HttpDelete("{userId}"), Authorize(Roles = "user")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Delete([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
         var user = await _dataContext.Users.FindAsync(userId);
