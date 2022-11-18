@@ -4,12 +4,28 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RegisterAPI.Infrastructure;
+using FluentMigrator.Runner;
+using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtKey = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]); 
+
+builder.Services.AddFluentMigratorCore()
+    .ConfigureRunner(
+        runnerBuilder =>
+        {
+            runnerBuilder
+                .AddPostgres()
+                .WithGlobalConnectionString("Server=localhost;Database=postgres;Port=5432;User Id=admin;Password=admin;")
+                .ScanIn(Assembly.GetExecutingAssembly()).For.Migrations()
+                .For.All();
+        })
+    .AddLogging(lb => lb.AddFluentMigratorConsole());
+
 
 builder.Services
     .AddAuthentication( options => {
@@ -56,8 +72,9 @@ builder.Services.AddSwaggerGen(config =>
         new OpenApiInfo
         {
             Title = "Register API",
+            Description = "User registration and more.",
             Version = "v0",
-            Contact = new OpenApiContact { Name = "Igor Couto", Email = "igor.fcouto@gmail.com" }
+            Contact = new OpenApiContact { Name = "Igor Couto", Email = "igor.fcouto@gmail.com" },
         });
 
       config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() 
@@ -97,6 +114,8 @@ app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v0/swagger.json", "Register API v0");
     options.DefaultModelsExpandDepth(-1);
+    options.DocExpansion(DocExpansion.None);
+    options.DisplayRequestDuration();
 });
 
 app.UseHttpsRedirection();
@@ -105,5 +124,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var migrator = scope.ServiceProvider.GetService<IMigrationRunner>();
+migrator.MigrateUp();
 
 app.Run();

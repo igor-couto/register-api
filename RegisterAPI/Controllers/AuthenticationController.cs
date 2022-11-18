@@ -68,7 +68,7 @@ public class AuthenticationController : ControllerBase
             new Claim("family_name", user.LastName),
             new Claim("phone_number", user.PhoneNumber),
             new Claim("email", user.Email),
-            new Claim("role", "user"),
+            new Claim("role", user.Role.ToString().ToLower()),
             new Claim("email_verified", user.IsEmailConfirmed.ToString())
         };
 

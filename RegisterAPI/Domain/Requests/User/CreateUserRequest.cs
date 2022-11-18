@@ -13,8 +13,6 @@ public class CreateUserRequest
 
     public User Create()
     {
-        var currentDate = DateTime.Now;
-
         var passwordSalt = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 6);
 
         return new User()
@@ -27,10 +25,10 @@ public class CreateUserRequest
             PhoneNumber = PhoneNumber,
             IsEmailConfirmed = false,
             IsLocked = false,
-            CreatedAt = currentDate,
-            UpdatedAt = currentDate,
+            CreatedAt = DateTime.Now,
             PasswordSalt = passwordSalt,
-            PasswordHash = new ScryptEncoder().Encode(passwordSalt + Password)
+            PasswordHash = new ScryptEncoder().Encode(passwordSalt + Password),
+            Role = Role.User
         };
     }
 }
