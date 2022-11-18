@@ -74,7 +74,8 @@ builder.Services.AddSwaggerGen(config =>
             Title = "Register API",
             Description = "User registration and more.",
             Version = "v0",
-            Contact = new OpenApiContact { Name = "Igor Couto", Email = "igor.fcouto@gmail.com" },
+            Contact = new OpenApiContact { Name = "Igor Couto", Email = "igor.fcouto@gmail.com", Url =new Uri("https://github.com/igor-couto") },
+            License = new OpenApiLicense {Name = "GNU General Public License V3", Url = new Uri("https://github.com/igor-couto/register-api/blob/main/LICENCE")}
         });
 
       config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() 
