@@ -9,7 +9,7 @@ However, here I implement some important concepts:
 
 - .NET 6.0
 - Azure deployment and configuration
-- CI/CD with github actions
+- CI/CD with github workflows and actions
 - Authentication
 - JWT Authorization with claims
 - Refresh Token
