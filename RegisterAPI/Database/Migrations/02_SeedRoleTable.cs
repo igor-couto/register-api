@@ -3,7 +3,7 @@ using RegisterAPI.Domain;
 
 namespace RegisterAPIMigrations;
 
-[Migration(4)]
+[Migration(2)]
 public class SeedRoleTable : Migration
 {
     public override void Up()

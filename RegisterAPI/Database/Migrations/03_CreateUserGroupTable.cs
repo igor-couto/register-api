@@ -2,7 +2,7 @@ using FluentMigrator;
 
 namespace RegisterAPIMigrations;
 
-[Migration(2)]
+[Migration(3)]
 public class CreateUserGroupTable : Migration
 {
     public override void Up()
