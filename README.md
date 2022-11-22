@@ -21,6 +21,18 @@ However, here I implement some important concepts:
 - Semantic versioning
 - And many other things that I can imagine and be willing to do
 
+## Usage
+
+Run postgres docker container:
+```
+docker run --name postgres -p 5432:5432 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -d --rm postgres:latest
+```
+
+Run dotnet project:
+```
+dotnet run --project RegisterAPI
+````
+
 ## Author
 
 - **Igor Couto** - [igor.fcouto@gmail.com](mailto:igor.fcouto@gmail.com)
