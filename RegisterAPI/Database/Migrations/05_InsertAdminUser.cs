@@ -1,5 +1,4 @@
 using FluentMigrator;
-using RegisterAPI.Domain;
 
 namespace RegisterAPIMigrations;
 

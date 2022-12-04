@@ -8,9 +8,10 @@ This is the Register API. What does it do? Well, it does registrations. Saves in
 This project serves so that I can practice some concepts, without thinking too much about what I'm going to develop. By itself, it's not useful at all.
 However, here I implement some important concepts:
 
-- .NET 6.0
+- .NET 7.0
 - Azure deployment and configuration
 - CI/CD with github workflows and actions
+- Githooks
 - Authentication
 - JWT Authorization with claims
 - Refresh Token
@@ -19,6 +20,7 @@ However, here I implement some important concepts:
 - Migrations
 - Conventional commits
 - Semantic versioning
+- Websockets
 - And many other things that I can imagine and be willing to do
 
 ## Usage

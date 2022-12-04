@@ -1,5 +1,3 @@
-using System.Runtime.Serialization;
-
 namespace RegisterAPI.Domain;
 
 public enum Role

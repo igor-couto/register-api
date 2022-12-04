@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using RegisterAPI.Domain;
 
 namespace RegisterAPI.Infrastructure;
 
