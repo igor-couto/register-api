@@ -1,4 +1,4 @@
-name: Build, Test, Build image and Deploy to Azure
+name: Build, Test, Push Image and Deploy to Azure
 
 on: push
 
@@ -13,12 +13,24 @@ jobs:
 
       - name: Build Projects
         run: |
+          echo github.ref
           dotnet build RegisterAPI 
           dotnet build Tests/Integration
   
   Tests:
     needs: Build
     runs-on: ubuntu-latest
+
+    services:
+      postgres-database:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+
     steps:
 
       - name: Checkout GitHub Action
@@ -29,7 +41,7 @@ jobs:
 
   Deploy:
     needs: Tests
-    if: GITHUB_REF##*/ == ${{ github.event.repository.default_branch }}
+    if: format('refs/heads/{0}', github.event.repository.default_branch) == github.ref
     runs-on: ubuntu-latest
       
     steps:
