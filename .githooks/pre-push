@@ -10,8 +10,8 @@ echo -e "${YELLOW}Building project...${NOCOLOR}"
 DOTNET_CLI_TELEMETRY_OPTOUT=1
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
-dotnet build RegisterApi
-dotnet build Tests/Integration
+dotnet build RegisterApi --verbosity minimal
+dotnet build Tests/Integration --verbosity minimal
 
 if [ $? -ne 0 ] ; then
     echo ""
@@ -24,7 +24,7 @@ echo ""
 echo -e "${YELLOW}Executing Integration Tests ...${NOCOLOR}"
 echo ""
 
-dotnet test Tests/Integration
+dotnet test Tests/Integration --verbosity minimal
 
 if [ $? -ne 0 ] ; then
     echo ""
