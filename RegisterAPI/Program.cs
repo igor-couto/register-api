@@ -52,3 +52,5 @@ static void ConfigureApplication(WebApplication app)
 
     app.UseFluentMigratorConfiguration();
 }
+
+public partial class Program { }
