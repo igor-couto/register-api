@@ -36,6 +36,7 @@ public class CreateUserTable : Migration
             .WithColumn("phone_number")
                 .AsString(16)
                 .NotNullable()
+                .Unique()
             .WithColumn("created_at")
                 .AsDate()
                 .NotNullable()
