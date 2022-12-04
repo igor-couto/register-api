@@ -5,9 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scrypt;
-using RegisterAPI.Domain;
-using RegisterAPI.Domain.Requests;
-using RegisterAPI.Infrastructure;
 using RegisterAPI.Endpoints.Authorization;
 
 namespace user_api.Controllers;
