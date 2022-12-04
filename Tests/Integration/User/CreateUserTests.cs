@@ -17,11 +17,11 @@ public class CreateUserTests : IntegrationTestBase
     {
         var createUserRequest = new CreateUserRequest
         {
-             UserName = Faker.Person.UserName,
+             UserName = Faker.Person.UserName.ToLower(),
              FirstName = Faker.Person.FirstName,
              LastName = Faker.Person.LastName,
-             Email = Faker.Person.Email,
-             PhoneNumber = "1234567890",
+             Email = Faker.Person.Email.ToLower(),
+             PhoneNumber = Faker.Phone.PhoneNumber("(##) ####-####"),
              Password = Faker.Random.Word()
         };
         
