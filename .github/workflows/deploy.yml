@@ -1,13 +1,35 @@
-name: Build and Deploy to Azure
+name: Build, Test, Build image and Deploy to Azure
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
 
-  build-and-deploy:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Checkout GitHub Action
+        uses: actions/checkout@main
+
+      - name: Build Projects
+        run: |
+          dotnet build RegisterAPI 
+          dotnet build Tests/Integration
+  
+  Tests:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout GitHub Action
+        uses: actions/checkout@main
+
+      - name: Integration Testing
+        run: dotnet test Tests/Integration --verbosity minimal
+
+  Deploy:
+    needs: Tests
+    if: GITHUB_REF##*/ == ${{ github.event.repository.default_branch }}
     runs-on: ubuntu-latest
       
     steps:
