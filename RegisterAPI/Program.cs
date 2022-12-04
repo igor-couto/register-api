@@ -40,6 +40,8 @@ static void ConfigureApplication(WebApplication app)
 
     app.UseDeveloperExceptionPage();
 
+    app.UseHsts();
+
     app.UseSwaggerConfiguration();
 
     app.UseHttpsRedirection();
