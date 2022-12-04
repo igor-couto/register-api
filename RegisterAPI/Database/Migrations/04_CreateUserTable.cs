@@ -15,6 +15,7 @@ public class CreateUserTable : Migration
             .WithColumn("user_name")
                 .AsString(64)
                 .NotNullable()
+                .Unique()
             .WithColumn("first_name")
                 .AsString(64)
                 .NotNullable()
@@ -24,6 +25,7 @@ public class CreateUserTable : Migration
             .WithColumn("email")
                 .AsString(256)
                 .NotNullable()
+                .Unique()
             .WithColumn("is_email_confirmed")
                 .AsBoolean().
                 NotNullable()
