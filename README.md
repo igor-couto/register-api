@@ -1,7 +1,7 @@
 # The Register API
 
 [![GitHub license](https://img.shields.io/github/license/igor-couto/register-api.svg)](https://github.com/igor-couto/register-api/blob/main/LICENCE)
-![BuildAndDeployBadge](https://github.com/igor-couto/register-api/actions/workflows/main_register-api.yml/badge.svg)
+![BuildAndDeployBadge](https://github.com/igor-couto/register-api/actions/workflows/pipeline.yml/badge.svg)
 
 This is the Register API. What does it do? Well, it does registrations. Saves information in the database.
 
