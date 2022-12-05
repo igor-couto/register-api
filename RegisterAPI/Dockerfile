@@ -12,6 +12,7 @@ RUN dotnet publish "./RegisterAPI.csproj" -c Release -o /app \
 
 # Serve Stage
 FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-alpine AS runtime
+RUN apk upgrade musl
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_HTTP_PORT=http://+:5000
